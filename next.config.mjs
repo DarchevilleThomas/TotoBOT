@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-    i18n
-};
+const nextConfig = {};
 
 export default nextConfig;
