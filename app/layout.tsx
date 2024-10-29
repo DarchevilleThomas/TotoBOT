@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
+'use client'
+
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import StoreProvider from "@/components/providers/store-provider";
-
-export const metadata: Metadata = {
-    title: "TOTO BOT",
-    description: "Le bot officiel de TOTO"
-};
+import I18nProvider from "@/components/providers/i18n-provider";
 
 export default function RootLayout({
                                        children
@@ -22,9 +19,11 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
         >
-            <StoreProvider>
-                {children}
-            </StoreProvider>
+            <I18nProvider>
+                <StoreProvider>
+                    {children}
+                </StoreProvider>
+            </I18nProvider>
         </ThemeProvider>
         </body>
         </html>
