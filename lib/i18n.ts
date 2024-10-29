@@ -2,6 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import EN from "@/lib/translations/en.json";
 import FR from "@/lib/translations/fr.json";
+import { Lang } from "@/types/Lang";
 
 // the translations
 // (tip move them in a JSON file and import them,
@@ -27,5 +28,17 @@ i18n
         }
     });
 
+export const langs: Lang[] = [
+    {
+        code: "en",
+        name: "English",
+        flag: "en-flag.svg"
+    },
+    {
+        code: "fr",
+        name: "Français",
+        flag: "fr-flag.svg"
+    }
+]
 
 export default i18n;
