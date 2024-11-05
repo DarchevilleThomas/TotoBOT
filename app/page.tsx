@@ -1,29 +1,20 @@
-'use client'
+"use client";
 
-import { useAppSelector } from "@/lib/hooks";
-import { Button } from "@/components/ui/button";
-import { useDispatch } from "react-redux";
-import { increment } from "@/lib/features/appSlice";
+import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
+import { MessageBox } from "@/components/messages/MessageBox";
 
 export default function Home() {
 
-    const dispatch = useDispatch();
+    const { t } = useTranslation();
 
-    const { t , i18n} = useTranslation();
-
-    const appSlice = useAppSelector((state) => state.app);
-    const value = appSlice.value;
-
-    useEffect(() => {
-    }, []);
 
     return (
-        <div>
-            <div>{value}</div>
-            <Button onClick={() => dispatch(increment())}>Click me</Button>
-            <Button onClick={() => i18n.changeLanguage("fr")}>{t("test")}</Button>
+        <div className="flex-1 flex flex-col justify-end px-5 pb-8">
+            <MessageBox />
+            <Input
+                placeholder={t("Send a message to the TOTOBOT")}
+            />
         </div>
     );
 }

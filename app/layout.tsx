@@ -8,20 +8,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
     return (
         <html lang="fr">
-        <body className="dark:bg-secondary bg-secondary">
-            <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-                disableTransitionOnChange
-            >
-                <I18nProvider>
-                    <StoreProvider>
-                        <Navbar />
+        <body className="bg-background flex flex-col min-h-screen">
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+        >
+            <I18nProvider>
+                <StoreProvider>
+                    <Navbar />
+                    <main className="flex-grow flex flex-col">
                         {children}
-                    </StoreProvider>
-                </I18nProvider>
-            </ThemeProvider>
+                    </main>
+                </StoreProvider>
+            </I18nProvider>
+        </ThemeProvider>
         </body>
         </html>
     );

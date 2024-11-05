@@ -2,34 +2,30 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface AppState {
-  value: number
+  messages: string[]
 }
 
 const initialState: AppState = {
-  value: 0,
+  messages: []
 }
 
 export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1
+    setMessages: (state, action: PayloadAction<string[]>) => {
+        state.messages = action.payload
     },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload
-    },
+    addMessage: (state, action: PayloadAction<string>) => {
+        state.messages.push(action.payload)
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
 export const {
-    increment,
-    decrement,
-    incrementByAmount
+    setMessages,
+    addMessage
 } = appSlice.actions
 
 export default appSlice.reducer
