@@ -1,31 +1,28 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface AppState {
-  messages: string[]
+    messages: string[];
 }
 
 const initialState: AppState = {
-  messages: []
-}
+    messages: [],
+};
 
 export const appSlice = createSlice({
-  name: 'app',
-  initialState,
-  reducers: {
-    setMessages: (state, action: PayloadAction<string[]>) => {
-        state.messages = action.payload
+    name: "app",
+    initialState,
+    reducers: {
+        setMessages: (state, action: PayloadAction<string[]>) => {
+            state.messages = action.payload;
+        },
+        addMessage: (state, action: PayloadAction<string>) => {
+            state.messages.push(action.payload);
+        },
     },
-    addMessage: (state, action: PayloadAction<string>) => {
-        state.messages.push(action.payload)
-    }
-  },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const {
-    setMessages,
-    addMessage
-} = appSlice.actions
+export const { setMessages, addMessage } = appSlice.actions;
 
-export default appSlice.reducer
+export default appSlice.reducer;

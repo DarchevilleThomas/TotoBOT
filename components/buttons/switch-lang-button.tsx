@@ -7,22 +7,23 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuTrigger
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
 import { langs } from "@/lib/i18n";
 import Image from "next/image";
 
 export function SwitchLangButton() {
-
     const { t, i18n } = useTranslation();
-    const currentLang = langs.find(lang => lang.code === i18n.language)
+    const currentLang = langs.find((lang) => lang.code === i18n.language);
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
-                    {currentLang && <Image src={`/icons/${currentLang.flag}`} alt={currentLang.name} width={32} height={32} />}
+                    {currentLang && (
+                        <Image src={`/icons/${currentLang.flag}`} alt={currentLang.name} width={32} height={32} />
+                    )}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

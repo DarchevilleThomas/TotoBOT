@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-    font-family: Montserrat, sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 @layer utilities {
@@ -13,6 +13,11 @@
 }
 
 @layer base {
+    @font-face {
+        font-family: "Poppins";
+        src: url("/fonts/Poppins-Regular.ttf") format("truetype");
+    }
+
     :root {
         --darker: 216 58% 33%;
         --background: 216 21.13% 86.08%;
@@ -60,7 +65,6 @@
         --ring: 208 83% 60%;
     }
 }
-
 
 @layer base {
     * {

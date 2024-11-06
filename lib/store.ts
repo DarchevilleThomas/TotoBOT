@@ -7,15 +7,14 @@ export const makeStore = () => {
         reducer: {
             app: appSlice.reducer,
 
-            [GeminiAPI.reducerPath]: GeminiAPI.reducer
+            [GeminiAPI.reducerPath]: GeminiAPI.reducer,
         },
-        middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware().concat(GeminiAPI.middleware)
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(GeminiAPI.middleware),
     });
 };
 
 // Infer the type of makeStore
-export type AppStore = ReturnType<typeof makeStore>
+export type AppStore = ReturnType<typeof makeStore>;
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<AppStore["getState"]>
-export type AppDispatch = AppStore["dispatch"]
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];

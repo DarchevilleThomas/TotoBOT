@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "https://generativelanguage.googleapis.com/"
+    baseUrl: "https://generativelanguage.googleapis.com/",
 });
 
 export const GeminiAPI = createApi({
@@ -13,19 +13,17 @@ export const GeminiAPI = createApi({
                 url: "/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyCiymlkd5mubFTaN5xXEgx_FPgs2Tr2R10",
                 method: "POST",
                 body: {
-                    "contents": [
+                    contents: [
                         {
-                            "parts": [{ "text": data }]
-                        }
-                    ]
-                }
-            })
-        })
-    })
+                            parts: [{ text: data }],
+                        },
+                    ],
+                },
+            }),
+        }),
+    }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {
-    useGetGeminiResponseMutation
-} = GeminiAPI;
+export const { useGetGeminiResponseMutation } = GeminiAPI;

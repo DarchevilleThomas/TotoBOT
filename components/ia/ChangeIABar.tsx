@@ -1,13 +1,13 @@
 import { cn } from "@/lib/utils";
 
 type Props = {
-    className?: string
-}
+    className?: string;
+};
 
-export const ChangeIABar = ({className}: Props) => {
+export const ChangeIABar = ({ className }: Props) => {
     return (
         <div className={cn("bg-darker rounded-md p-3", className)}>
             <h1 className={"text-white"}>Change IA Bar</h1>
         </div>
-    )
-}
+    );
+};

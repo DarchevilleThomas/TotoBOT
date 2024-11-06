@@ -9,36 +9,35 @@ import { Lang } from "@/types/Lang";
 // or even better, manage them separated from your code: https://react.i18next.com/guides/multiple-translation-files)
 const resources = {
     en: {
-        translation: EN
+        translation: EN,
     },
     fr: {
-        translation: FR
-    }
+        translation: FR,
+    },
 };
 
-i18n
-    .use(initReactI18next) // passes i18n down to react-i18next
+i18n.use(initReactI18next) // passes i18n down to react-i18next
     .init({
         resources,
         lng: "en",
         fallbackLng: "en",
 
         interpolation: {
-            escapeValue: false // react already safes from xss
-        }
+            escapeValue: false, // react already safes from xss
+        },
     });
 
 export const langs: Lang[] = [
     {
         code: "en",
         name: "English",
-        flag: "en-flag.svg"
+        flag: "en-flag.svg",
     },
     {
         code: "fr",
         name: "Français",
-        flag: "fr-flag.svg"
-    }
-]
+        flag: "fr-flag.svg",
+    },
+];
 
 export default i18n;
