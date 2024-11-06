@@ -6,7 +6,7 @@ type Props = {
 
 export const ChangeIABar = ({className}: Props) => {
     return (
-        <div className={cn("bg-darker/60 rounded-md p-3", className)}>
+        <div className={cn("bg-darker rounded-md p-3", className)}>
             <h1 className={"text-white"}>Change IA Bar</h1>
         </div>
     )
