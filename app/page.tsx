@@ -14,16 +14,16 @@ export default function Home() {
     const dispatch = useAppDispatch();
 
     const handleInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
+        if (e.key === "Enter" && e.currentTarget.value) {
             dispatch(addMessage(e.currentTarget.value));
             e.currentTarget.value = "";
         }
     }
 
     return (
-        <div className="flex-1 bg-background flex flex-col justify-end px-5 pb-8">
+        <div className="flex-1 bg-background flex flex-col justify-end px-5 pb-8 max-h-[calc(100vh-6rem)]">
             <ChangeIABar className={"mt-4"} />
-            <MessageBox className={"pb-12"} />
+            <MessageBox className={"pb-12 flex-1"} />
             <Input
                 placeholder={t("Send a message to the TOTOBOT")}
                 className={"p-6 bg-foreground/10"}

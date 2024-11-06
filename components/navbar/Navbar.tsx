@@ -1,3 +1,5 @@
+'use client';
+
 import { SwitchThemeButton } from "@/components/buttons/switch-theme-button";
 import { SwitchLangButton } from "@/components/buttons/switch-lang-button";
 
