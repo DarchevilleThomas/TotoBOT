@@ -11,7 +11,7 @@ type Props = {
 export const MessageBox = ({ className }: Props) => {
     const appSlice = useAppSelector((state) => state.app);
     const messages = appSlice.messages;
-
+    const isRequesting = appSlice.isRequesting;
     const scrollAreaRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export const MessageBox = ({ className }: Props) => {
             scrollAreaRef.current.scrollTop =
                 scrollAreaRef.current.scrollHeight;
         }
-    }, [messages]);
+    }, [messages, isRequesting]);
 
     return (
         <ScrollArea
@@ -44,6 +44,12 @@ export const MessageBox = ({ className }: Props) => {
                     )}
                 />
             ))}
+            {isRequesting && (
+                <MessageItem 
+                    message="..."
+                    className="self-start mr-auto bg-darker my-3"
+                />
+            )}
         </ScrollArea>
     );
 };

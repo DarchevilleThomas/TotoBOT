@@ -1,28 +1,60 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { MessageBox } from "@/components/messages/MessageBox";
-import { useAppDispatch } from "@/lib/hooks";
-import { addMessage } from "@/lib/features/appSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { addMessage, setIsRequesting } from "@/lib/features/appSlice";
 import { ChangeIABar } from "@/components/ia/ChangeIABar";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Home() {
+
+    const [message, setMessage] = useState("");
+
     const { t } = useTranslation();
 
     const dispatch = useAppDispatch();
 
-    const handleSubmit = (value: string) => {
-        if (value) {
-            dispatch(addMessage(value));
-        }
-    };
+    const appSlice = useAppSelector((state) => state.app);
+    const isRequesting = appSlice.isRequesting;
+    const messages = appSlice.messages;
 
-    const handleInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter" && e.currentTarget.value) {
-            dispatch(addMessage(e.currentTarget.value));
-            e.currentTarget.value = "";
+    const requestAI = async () => {        
+        if (process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
+            const message = messages[messages.length - 1];
+            const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+            const history = messages.map((message, index) => ({
+                role: index % 2 !== 0 && index !== messages.length - 1 ? "model" : "user",
+                parts: [{ text: message }],
+            }));
+
+            const chat = model.startChat({
+                history: history,
+            });
+
+            dispatch(setIsRequesting(true));
+            const result = await chat.sendMessage(message);
+            dispatch(setIsRequesting(false));
+
+            dispatch(addMessage(result.response.text()));
+        }
+    }; 
+
+    useEffect(() => {
+        if (messages.length % 2 !== 0 && messages.length > 0) {
+            requestAI();
+        }
+    }, [messages]);
+
+    const handleSubmit = (value: string) => {
+        if (value && value.trim() !== "") {
+            dispatch(addMessage(value));
+            setMessage("");
         }
     };
 
@@ -30,19 +62,26 @@ export default function Home() {
         <div className="flex-1 bg-background flex flex-col justify-end px-5 pb-8 max-h-[calc(100vh-6rem)]">
             <ChangeIABar className={"mt-4"} />
             <MessageBox className={"pb-12 flex-1"} />
-            <div className="relative">
-                <Input
+            <div className="flex flex-row">
+                <Textarea
                     placeholder={t("Send a message to the TOTOBOT")}
-                    className={"p-6 bg-foreground/10 pr-24"}
-                    onKeyDown={handleInput}
+                    cols={4}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                            handleSubmit(message);
+                        }
+                    }}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className={"bg-foreground/10 h-24 pr-24 resize-none scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent"}
+                    disabled={isRequesting}
                 />
                 <Button
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                    className="ml-2 min-h-ful h-24"
                     onClick={() => {
-                        const input = document.querySelector("input") as HTMLInputElement;
-                        handleSubmit(input.value);
-                        input.value = "";
-                    }}>
+                        handleSubmit(message);
+                    }}
+                    disabled={isRequesting}>
                     Envoyer
                 </Button>
             </div>

@@ -6,7 +6,7 @@ import Navbar from "@/components/navbar/Navbar";
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <html lang="fr">
+        <html lang="fr" suppressHydrationWarning>
             <body className="bg-background flex flex-col min-h-screen">
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                     <I18nProvider>

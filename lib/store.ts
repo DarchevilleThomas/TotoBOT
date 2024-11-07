@@ -1,15 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { appSlice } from "@/lib/features/appSlice";
-import { GeminiAPI } from "@/lib/api/GeminiAPI";
 
 export const makeStore = () => {
     return configureStore({
         reducer: {
             app: appSlice.reducer,
-
-            [GeminiAPI.reducerPath]: GeminiAPI.reducer,
         },
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(GeminiAPI.middleware),
     });
 };
 
