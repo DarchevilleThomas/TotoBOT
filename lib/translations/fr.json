@@ -2,5 +2,8 @@
     "Light": "Clair",
     "Dark": "Sombre",
     "System": "Système",
-    "Send a message to the TOTOBOT": "Envoyer un message au TOTOBOT"
+    "Send a message to the TOTOBOT": "Envoyer un message au TOTOBOT",
+    "AI Settings": "Paramètres des IA",
+    "Enter your API Keys for the IA of your choice.": "Entrez les différentes clés d'API des IA que vous allez utiliser.",
+    "Save": "Enregistrer"
 }

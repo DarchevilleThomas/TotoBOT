@@ -1,7 +1,8 @@
 "use client";
 
-import { SwitchThemeButton } from "@/components/buttons/switch-theme-button";
 import { SwitchLangButton } from "@/components/buttons/switch-lang-button";
+import { SwitchThemeButton } from "@/components/buttons/switch-theme-button";
+import { OptionButton } from "../buttons/OptionButton";
 
 export default function Navbar() {
     return (
@@ -10,6 +11,7 @@ export default function Navbar() {
             <div className="flex gap-5">
                 <SwitchLangButton />
                 <SwitchThemeButton />
+                <OptionButton />
             </div>
         </nav>
     );

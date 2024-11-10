@@ -1,18 +1,24 @@
-import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import StoreProvider from "@/components/providers/store-provider";
-import I18nProvider from "@/components/providers/i18n-provider";
+import { SettingModal } from "@/components/modal/SettingModal";
 import Navbar from "@/components/navbar/Navbar";
+import { APIKeysProvider } from "@/components/providers/apikeys-provider";
+import I18nProvider from "@/components/providers/i18n-provider";
+import StoreProvider from "@/components/providers/store-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import "./globals.css";
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+
     return (
         <html lang="fr" suppressHydrationWarning>
             <body className="bg-background flex flex-col min-h-screen">
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                     <I18nProvider>
                         <StoreProvider>
-                            <Navbar />
-                            <main className="flex-grow flex flex-col">{children}</main>
+                            <APIKeysProvider>
+                                <Navbar />
+                                <SettingModal />
+                                <main className="flex-grow flex flex-col">{children}</main>
+                            </APIKeysProvider>
                         </StoreProvider>
                     </I18nProvider>
                 </ThemeProvider>

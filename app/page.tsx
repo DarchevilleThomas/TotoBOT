@@ -1,14 +1,14 @@
 "use client";
 
-import { useTranslation } from "react-i18next";
-import { MessageBox } from "@/components/messages/MessageBox";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { addMessage, setIsRequesting } from "@/lib/features/appSlice";
 import { ChangeIABar } from "@/components/ia/ChangeIABar";
+import { MessageBox } from "@/components/messages/MessageBox";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Textarea } from "@/components/ui/textarea";
+import { addMessage, setIsRequesting } from "@/lib/features/appSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
 
@@ -21,11 +21,12 @@ export default function Home() {
     const appSlice = useAppSelector((state) => state.app);
     const isRequesting = appSlice.isRequesting;
     const messages = appSlice.messages;
-
+    const geminiApiKey = appSlice.gemini.apiKey;
+    
     const requestAI = async () => {        
-        if (process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
+        if (geminiApiKey) {
             const message = messages[messages.length - 1];
-            const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+            const genAI = new GoogleGenerativeAI(geminiApiKey);
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
             const history = messages.map((message, index) => ({
