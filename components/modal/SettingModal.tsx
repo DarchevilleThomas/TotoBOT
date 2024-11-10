@@ -1,6 +1,6 @@
 "use client";
 
-import { setGeminiApiKey, setSettingModal } from "@/lib/features/appSlice";
+import { setGeminiApiKey, setMessages, setSettingModal } from "@/lib/features/appSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { APIKeysEnum } from "@/types/APIKeysEnum";
 import { useEffect, useState } from "react";
@@ -29,6 +29,7 @@ export const SettingModal = () => {
     const handleSubmit = () => {
         handleSubmitGemini();
         dispatch(setSettingModal(false));
+        dispatch(setMessages([]));
     }
 
     useEffect(() => {

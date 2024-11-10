@@ -22,6 +22,8 @@ export default function Home() {
     const isRequesting = appSlice.isRequesting;
     const messages = appSlice.messages;
     const geminiApiKey = appSlice.gemini.apiKey;
+
+    const disabled = isRequesting || messages.length % 2 !== 0;
     
     const requestAI = async () => {        
         if (geminiApiKey) {
@@ -75,14 +77,14 @@ export default function Home() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     className={"bg-foreground/10 h-24 pr-24 resize-none scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent"}
-                    disabled={isRequesting}
+                    disabled={disabled}
                 />
                 <Button
                     className="ml-2 min-h-ful h-24"
                     onClick={() => {
                         handleSubmit(message);
                     }}
-                    disabled={isRequesting}>
+                    disabled={disabled}>
                     Envoyer
                 </Button>
             </div>
