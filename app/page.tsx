@@ -1,32 +1,31 @@
 "use client";
 
 import { ChangeIABar } from "@/components/ia/ChangeIABar";
+import { SendMessageInput } from "@/components/inputs/SendMessageInput";
 import { MessageBox } from "@/components/messages/MessageBox";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { addMessage, setIsRequesting } from "@/lib/features/appSlice";
+import { useToast } from "@/hooks/use-toast";
+import { addMessage, setError, setIsRequesting, setMessages } from "@/lib/features/appSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function Home() {
 
-    const [message, setMessage] = useState("");
+    const dispatch = useAppDispatch();
+
+    const { toast } = useToast();
 
     const { t } = useTranslation();
 
-    const dispatch = useAppDispatch();
-
     const appSlice = useAppSelector((state) => state.app);
-    const isRequesting = appSlice.isRequesting;
     const messages = appSlice.messages;
     const geminiApiKey = appSlice.gemini.apiKey;
-
-    const disabled = isRequesting || messages.length % 2 !== 0;
+    const error = appSlice.error;
     
     const requestAI = async () => {        
         if (geminiApiKey) {
+            try {
             const message = messages[messages.length - 1];
             const genAI = new GoogleGenerativeAI(geminiApiKey);
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -44,7 +43,11 @@ export default function Home() {
             const result = await chat.sendMessage(message);
             dispatch(setIsRequesting(false));
 
-            dispatch(addMessage(result.response.text()));
+                dispatch(addMessage(result.response.text()));
+            } catch (error: any) {
+                const errorMessage = error.message.match(/\[400 \] (.*?) \[/)?.[1] || error.message;
+                dispatch(setError(errorMessage));
+            }
         }
     }; 
 
@@ -54,40 +57,24 @@ export default function Home() {
         }
     }, [messages]);
 
-    const handleSubmit = (value: string) => {
-        if (value && value.trim() !== "") {
-            dispatch(addMessage(value));
-            setMessage("");
+    useEffect(() => {
+        if (error) {
+            dispatch(setIsRequesting(false));
+            dispatch(setMessages([]))
+            toast({
+                title: t("Error"),
+                description: error,
+                variant: "destructive",
+            });
+            dispatch(setError(null))
         }
-    };
+    }, [error]);
 
     return (
         <div className="flex-1 bg-background flex flex-col justify-end px-5 pb-8 max-h-[calc(100vh-6rem)]">
             <ChangeIABar className={"mt-4"} />
             <MessageBox className={"pb-12 flex-1"} />
-            <div className="flex flex-row">
-                <Textarea
-                    placeholder={t("Send a message to the TOTOBOT")}
-                    cols={4}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter" && !e.shiftKey) {
-                            handleSubmit(message);
-                        }
-                    }}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className={"bg-foreground/10 h-24 pr-24 resize-none scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent"}
-                    disabled={disabled}
-                />
-                <Button
-                    className="ml-2 min-h-ful h-24"
-                    onClick={() => {
-                        handleSubmit(message);
-                    }}
-                    disabled={disabled}>
-                    Envoyer
-                </Button>
-            </div>
+            <SendMessageInput />
         </div>
     );
 }

@@ -5,5 +5,6 @@
     "Send a message to the TOTOBOT": "Send a message to the TOTOBOT",
     "AI Settings": "AI Settings",
     "Enter your API Keys for the IA of your choice.": "Enter your API Keys for the IA of your choice.",
-    "Save": "Save"
+    "Save": "Save",
+    "Error": "Error"
 }

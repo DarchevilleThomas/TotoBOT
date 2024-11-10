@@ -4,6 +4,7 @@ import { APIKeysProvider } from "@/components/providers/apikeys-provider";
 import I18nProvider from "@/components/providers/i18n-provider";
 import StoreProvider from "@/components/providers/store-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                                 <Navbar />
                                 <SettingModal />
                                 <main className="flex-grow flex flex-col">{children}</main>
+                                <Toaster />
                             </APIKeysProvider>
                         </StoreProvider>
                     </I18nProvider>
